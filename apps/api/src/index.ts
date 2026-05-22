@@ -1,27 +1,33 @@
-import "dotenv/config";
+import { env } from "./config/env.js";
+
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { errorMiddleware } from "./middleware/error.middleware.js";
+
 import { prisma } from "@repo/db";
 
 const app = express();
-const PORT = process.env.PORT;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: env.CLIENT_URL,
+    credentials: true,
+  }),
+);
+
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/health", async (req, res) => {
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-    res.status(200).json({ status: "ok", message: "Database connected" });
-  } catch (error) {
-    console.error("Database connection failed", error);
-    res
-      .status(500)
-      .json({ status: "error", message: "Database connection failed" });
-  }
+app.get("/", async (req, res) => {
+  res.status(200).json({
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+    environment: env.NODE_ENV,
+  });
 });
+
+app.use(errorMiddleware);
 
 async function startServer() {
   try {
@@ -29,8 +35,10 @@ async function startServer() {
     await prisma.$queryRaw`SELECT 1`;
     console.log("Database connection successful.");
 
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+    app.listen(env.PORT, () => {
+      console.log(
+        `🚀 API Server humming cleanly in ${env.NODE_ENV} mode on port ${env.PORT}`,
+      );
     });
   } catch (error) {
     console.error(
