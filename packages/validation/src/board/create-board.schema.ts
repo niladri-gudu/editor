@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createBoardSchema = z.object({
+export const CreateBoardSchema = z.object({
   body: z.object({
     title: z
       .string({ error: "Title is required" })
@@ -18,4 +18,4 @@ export const createBoardSchema = z.object({
   }),
 });
 
-export type CreateBoardInput = z.infer<typeof createBoardSchema>;
+export type CreateBoardInput = z.infer<typeof CreateBoardSchema>;

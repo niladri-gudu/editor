@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const updateBoardSchema = z.object({
+export const UpdateBoardSchema = z.object({
   body: z
     .object({
       title: z
@@ -29,4 +29,4 @@ export const updateBoardSchema = z.object({
     ),
 });
 
-export type UpdateBoardInput = z.infer<typeof updateBoardSchema>;
+export type UpdateBoardInput = z.infer<typeof UpdateBoardSchema>;
