@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import { errorMiddleware } from "./middleware/error.middleware.js";
 
 import { prisma } from "@repo/db";
+import { authRoutes } from "./modules/auth/auth.routes.js";
 
 const app = express();
 
@@ -19,7 +20,9 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/", async (req, res) => {
+app.use("/api/auth", authRoutes);
+
+app.get("/health", async (req, res) => {
   res.status(200).json({
     status: "healthy",
     timestamp: new Date().toISOString(),
