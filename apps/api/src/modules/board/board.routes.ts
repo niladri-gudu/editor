@@ -4,11 +4,13 @@ import { validate } from "../../middleware/validate.middleware.js";
 import {
   AddCollaboratorSchema,
   CreateBoardSchema,
+  CreateNodeSchema,
   UpdateBoardSchema,
   UpdateCollaboratorRoleSchema,
 } from "@repo/validation";
 import { requireAuth } from "../../middleware/auth.middleware.js";
 import { CollaboratorController } from "../collaborator/collaborator.controller.js";
+import { NodeController } from "../node/node.controller.js";
 
 const router = Router();
 
@@ -38,5 +40,13 @@ router.delete(
   "/:boardId/collaborators/:userId",
   CollaboratorController.removeCollaborator,
 );
+
+router.post(
+  "/:boardId/nodes",
+  validate(CreateNodeSchema),
+  NodeController.createNode,
+);
+
+router.get("/:boardId/nodes", NodeController.getNodes);
 
 export const boardRoutes = router;

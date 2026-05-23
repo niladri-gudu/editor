@@ -6,3 +6,6 @@ export * from "./board/update-board.schema.js";
 
 export * from "./collaborator/add-collaborator.schema.js";
 export * from "./collaborator/update-collaborator-role.schema.js";
+
+export * from "./node/create-node.schema.js";
+export * from "./node/update-node.schema.js";

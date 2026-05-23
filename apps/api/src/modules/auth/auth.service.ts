@@ -27,7 +27,7 @@ export class AuthService {
 
     const user = await AuthRepository.createUser(input.email, hashedPassword);
 
-    return this.createSession(user.id, user.email);
+    return AuthService.createSession(user.id, user.email);
   }
 
   static async login(email: string, password: string): Promise<AuthTokens> {
@@ -42,7 +42,7 @@ export class AuthService {
       throw new UnauthorizedError("Invalid credentials provided");
     }
 
-    return this.createSession(user.id, user.email);
+    return AuthService.createSession(user.id, user.email);
   }
 
   static async refreshToken(opaqueRefreshToken: string): Promise<AuthTokens> {
@@ -56,7 +56,7 @@ export class AuthService {
 
     await AuthRepository.deleteRefreshToken(storedToken.id);
 
-    return this.createSession(storedToken.user.id, storedToken.user.email);
+    return AuthService.createSession(storedToken.user.id, storedToken.user.email);
   }
 
   static async logout(opaqueRefreshToken: string): Promise<void> {
