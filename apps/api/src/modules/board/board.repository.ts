@@ -102,4 +102,34 @@ export class BoardRepository {
       where: { userId_boardId: { boardId, userId } },
     });
   };
+
+  static findBoardDiagram = (boardId: string) => {
+    return prisma.board.findUnique({
+      where: {
+        id: boardId,
+      },
+      include: {
+        owner: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
+
+        collaborators: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                email: true,
+              },
+            },
+          },
+        },
+
+        nodes: true,
+        edges: true,
+      },
+    });
+  };
 }

@@ -113,4 +113,21 @@ export class BoardController {
       next(error);
     }
   }
+
+  static async getDiagram(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = await BoardController.getAuthenticatedUserId(req);
+
+      const boardId = String(req.params.boardId);
+
+      const diagram = await BoardService.getDiagram(boardId, userId);
+
+      res.status(200).json({
+        success: true,
+        data: diagram,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

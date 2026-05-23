@@ -20,6 +20,7 @@ router.use(requireAuth);
 
 router.post("/", validate(CreateBoardSchema), BoardController.createBoard);
 router.get("/", BoardController.getBoards);
+router.get("/:boardId/diagram", BoardController.getDiagram);
 router.get("/:id", BoardController.getBoardById);
 router.patch("/:id", validate(UpdateBoardSchema), BoardController.updateBoard);
 router.delete("/:id", BoardController.deleteBoard);

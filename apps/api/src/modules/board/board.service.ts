@@ -90,4 +90,44 @@ export class BoardService {
 
     return BoardRepository.deleteBoard(boardId);
   }
+
+  static async getDiagram(boardId: string, userId: string) {
+    const boardData = await BoardRepository.findBoardDiagram(boardId);
+
+    if (!boardData) {
+      throw new NotFoundError("Board not found");
+    }
+
+    const isOwner = boardData.ownerId === userId;
+
+    const isCollaborator = await BoardRepository.findCollaborator(
+      boardId,
+      userId,
+    );
+
+    const canView =
+      isOwner || isCollaborator || boardData.visibility === "PUBLIC";
+
+    if (!canView) {
+      throw new ForbiddenError("You do not have access to this board");
+    }
+
+    const { nodes, edges, collaborators, owner, ...board } = boardData;
+
+    return {
+      board: {
+        ...board,
+        owner,
+      },
+
+      collaborators: collaborators.map((c) => ({
+        id: c.user.id,
+        email: c.user.email,
+        role: c.role,
+      })),
+
+      nodes,
+      edges,
+    };
+  }
 }
