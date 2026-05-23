@@ -4,6 +4,7 @@ import { validate } from "../../middleware/validate.middleware.js";
 import {
   AddCollaboratorSchema,
   CreateBoardSchema,
+  CreateEdgeSchema,
   CreateNodeSchema,
   UpdateBoardSchema,
   UpdateCollaboratorRoleSchema,
@@ -11,6 +12,7 @@ import {
 import { requireAuth } from "../../middleware/auth.middleware.js";
 import { CollaboratorController } from "../collaborator/collaborator.controller.js";
 import { NodeController } from "../node/node.controller.js";
+import { EdgeController } from "../edge/edge.controller.js";
 
 const router = Router();
 
@@ -48,5 +50,13 @@ router.post(
 );
 
 router.get("/:boardId/nodes", NodeController.getNodes);
+
+router.post(
+  "/:boardId/edges",
+  validate(CreateEdgeSchema),
+  EdgeController.createEdge,
+);
+
+router.get("/:boardId/edges", EdgeController.getEdges);
 
 export const boardRoutes = router;

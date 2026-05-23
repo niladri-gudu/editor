@@ -9,3 +9,6 @@ export * from "./collaborator/update-collaborator-role.schema.js";
 
 export * from "./node/create-node.schema.js";
 export * from "./node/update-node.schema.js";
+
+export * from "./edge/create-edge.schema.js";
+export * from "./edge/update-edge.schema.js";
