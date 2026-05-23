@@ -7,6 +7,7 @@ import { errorMiddleware } from "./middleware/error.middleware.js";
 
 import { prisma } from "@repo/db";
 import { authRoutes } from "./modules/auth/auth.routes.js";
+import { boardRoutes } from "./modules/board/board.routes.js";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/boards", boardRoutes);
 
 app.get("/health", async (req, res) => {
   res.status(200).json({

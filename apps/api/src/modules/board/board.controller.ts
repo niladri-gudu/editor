@@ -19,7 +19,7 @@ export class BoardController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const userId = await this.getAuthenticatedUserId(req);
+      const userId = await BoardController.getAuthenticatedUserId(req);
 
       const board = await BoardService.createBoard(userId, req.body);
 
@@ -38,7 +38,7 @@ export class BoardController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const userId = await this.getAuthenticatedUserId(req);
+      const userId = await BoardController.getAuthenticatedUserId(req);
 
       const boards = await BoardService.getBoards(userId);
 
@@ -57,7 +57,7 @@ export class BoardController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const userId = await this.getAuthenticatedUserId(req);
+      const userId = await BoardController.getAuthenticatedUserId(req);
 
       const boardId = String(req.params.id);
 
@@ -78,7 +78,7 @@ export class BoardController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const userId = await this.getAuthenticatedUserId(req);
+      const userId = await BoardController.getAuthenticatedUserId(req);
 
       const boardId = String(req.params.id);
 
@@ -99,7 +99,7 @@ export class BoardController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const userId = await this.getAuthenticatedUserId(req);
+      const userId = await BoardController.getAuthenticatedUserId(req);
 
       const boardId = String(req.params.id);
 
