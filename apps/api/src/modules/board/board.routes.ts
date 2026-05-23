@@ -1,8 +1,14 @@
 import { Router } from "express";
 import { BoardController } from "./board.controller.js";
 import { validate } from "../../middleware/validate.middleware.js";
-import { CreateBoardSchema, UpdateBoardSchema } from "@repo/validation";
+import {
+  AddCollaboratorSchema,
+  CreateBoardSchema,
+  UpdateBoardSchema,
+  UpdateCollaboratorRoleSchema,
+} from "@repo/validation";
 import { requireAuth } from "../../middleware/auth.middleware.js";
+import { CollaboratorController } from "../collaborator/collaborator.controller.js";
 
 const router = Router();
 
@@ -13,5 +19,24 @@ router.get("/", BoardController.getBoards);
 router.get("/:id", BoardController.getBoardById);
 router.patch("/:id", validate(UpdateBoardSchema), BoardController.updateBoard);
 router.delete("/:id", BoardController.deleteBoard);
+
+router.post(
+  "/:boardId/collaborators",
+  validate(AddCollaboratorSchema),
+  CollaboratorController.addCollaborator,
+);
+
+router.get("/:boardId/collaborators", CollaboratorController.getCollaborators);
+
+router.patch(
+  "/:boardId/collaborators/:userId",
+  validate(UpdateCollaboratorRoleSchema),
+  CollaboratorController.updateRole,
+);
+
+router.delete(
+  "/:boardId/collaborators/:userId",
+  CollaboratorController.removeCollaborator,
+);
 
 export const boardRoutes = router;
