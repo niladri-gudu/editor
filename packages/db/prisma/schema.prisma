@@ -103,7 +103,11 @@ model DiagramNode {
   x Float
   y Float
 
-  data Json? @default("{}")
+  width  Float?
+  height Float?
+
+  data  Json? @default("{}")
+  style Json? @default("{}")
 
   boardId String
 
@@ -124,7 +128,11 @@ model DiagramEdge {
   sourceId String
   targetId String
 
-  data Json? @default("{}")
+  type  String?
+  label String?
+
+  data  Json? @default("{}")
+  style Json? @default("{}")
 
   boardId String
 
@@ -132,9 +140,10 @@ model DiagramEdge {
   updatedAt DateTime @updatedAt
 
   source DiagramNode @relation("EdgeSource", fields: [sourceId], references: [id], onDelete: Cascade)
+
   target DiagramNode @relation("EdgeTarget", fields: [targetId], references: [id], onDelete: Cascade)
 
-  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  board Board @relation(fields: [boardId], references: [id], onDelete: Cascade)
 
   @@index([boardId])
   @@index([sourceId])
