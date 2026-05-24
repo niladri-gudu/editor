@@ -54,6 +54,14 @@ export class BoardRepository {
   static findOwnedBoards = (userId: string) => {
     return prisma.board.findMany({
       where: { ownerId: userId },
+      include: {
+        owner: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
+      },
       orderBy: { updatedAt: "desc" },
     });
   };

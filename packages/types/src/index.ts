@@ -1,31 +1,5 @@
-export type NodeType =
-  | "service"
-  | "database"
-  | "queue"
-  | "cache"
-  | "gateway";
-
-export interface DiagramNode {
-  id: string;
-  type: NodeType;
-  position: {
-    x: number;
-    y: number;
-  };
-  data: {
-    label: string;
-  };
-}
-
-export interface DiagramEdge {
-  id: string;
-  source: string;
-  target: string;
-}
-
-export interface Board {
-  id: string;
-  title: string;
-  nodes: DiagramNode[];
-  edges: DiagramEdge[];
-}
+export * from "./api/index.js";
+export * from "./board/index.js";
+export * from "./node/index.js";
+export * from "./edge/index.js";
+export * from "./diagram/index.js";

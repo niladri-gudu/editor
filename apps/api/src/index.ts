@@ -29,7 +29,7 @@ app.use("/api/boards", boardRoutes);
 app.use("/api/nodes", nodeRoutes);
 app.use("/api/edges", edgeRoutes);
 
-app.get("/health", async (req, res) => {
+app.get("/api/health", async (req, res) => {
   res.status(200).json({
     status: "healthy",
     timestamp: new Date().toISOString(),
