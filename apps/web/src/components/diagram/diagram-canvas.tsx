@@ -17,7 +17,7 @@ import type { MouseEvent } from "react";
 import { NodeApi } from "@/lib/api/node";
 import { useCallback } from "react";
 import { useEditorStore } from "@/lib/editor/editor-store";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { nodeTypes } from "@/components/diagram/node-types";
 
 export interface DiagramCanvasProps {
@@ -57,8 +57,43 @@ export function DiagramCanvas({
     }
   };
 
-  const initialNodes = toFlowNodes(nodes, handleLabelChange);
-  const initialEdges = toFlowEdges(edges);
+  const handleResize = (nodeId: string, width: number, height: number) => {
+    setRfNodes((nodes) =>
+      nodes.map((node) =>
+        node.id === nodeId
+          ? {
+              ...node,
+              width,
+              height,
+              data: {
+                ...node.data,
+                width,
+                height,
+              },
+            }
+          : node,
+      ),
+    );
+  };
+
+  const handleResizeEnd = async (
+    nodeId: string,
+    width: number,
+    height: number,
+  ) => {
+    try {
+      await NodeApi.updateNodeSize(nodeId, width, height);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const initialNodes = useMemo(
+    () => toFlowNodes(nodes, handleLabelChange, handleResize, handleResizeEnd),
+    [nodes],
+  );
+
+  const initialEdges = useMemo(() => toFlowEdges(edges), [edges]);
 
   const activeTool = useEditorStore((state) => state.activeTool);
 
@@ -124,15 +159,21 @@ export function DiagramCanvas({
 
       const optimisticNode = {
         id: tempId,
-
         position: {
           x: position.x,
           y: position.y,
         },
 
+        width: 100,
+        height: 60,
+
         data: {
           label,
+          width: 100,
+          height: 60,
           onLabelChange: handleLabelChange,
+          onResize: handleResize,
+          onResizeEnd: handleResizeEnd,
         },
 
         type: "editable",

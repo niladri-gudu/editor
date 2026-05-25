@@ -32,6 +32,15 @@ export class NodeApi {
     return response.data.data;
   }
 
+  static async updateNodeSize(nodeId: string, width: number, height: number) {
+    const response = await api.patch(`/nodes/${nodeId}`, {
+      width,
+      height,
+    });
+
+    return response.data.data;
+  }
+
   static async deleteNode(nodeId: string) {
     const response = await api.delete(`/nodes/${nodeId}`);
 
