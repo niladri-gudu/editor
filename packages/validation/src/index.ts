@@ -1,14 +1,16 @@
-export * from "./auth/register.schema.js";
-export * from "./auth/login.schema.js";
+export * from "./auth/register.schema";
+export * from "./auth/login.schema";
+export * from "./auth/login-form.schema";
+export * from "./auth/register-form.schema";
 
-export * from "./board/create-board.schema.js";
-export * from "./board/update-board.schema.js";
+export * from "./board/create-board.schema";
+export * from "./board/update-board.schema";
 
-export * from "./collaborator/add-collaborator.schema.js";
-export * from "./collaborator/update-collaborator-role.schema.js";
+export * from "./collaborator/add-collaborator.schema";
+export * from "./collaborator/update-collaborator-role.schema";
 
-export * from "./node/create-node.schema.js";
-export * from "./node/update-node.schema.js";
+export * from "./node/create-node.schema";
+export * from "./node/update-node.schema";
 
-export * from "./edge/create-edge.schema.js";
-export * from "./edge/update-edge.schema.js";
+export * from "./edge/create-edge.schema";
+export * from "./edge/update-edge.schema";

@@ -1,8 +1,13 @@
 import type { DiagramEdge, DiagramNode } from "@repo/types";
 
-export function toFlowNodes(nodes: DiagramNode[]) {
+export function toFlowNodes(
+  nodes: DiagramNode[],
+  onLabelChange?: (nodeId: string, label: string) => void,
+) {
   return nodes.map((node) => ({
     id: node.id,
+
+    type: "editable",
 
     position: {
       x: node.x,
@@ -11,6 +16,8 @@ export function toFlowNodes(nodes: DiagramNode[]) {
 
     data: {
       label: node.label,
+
+      onLabelChange,
     },
   }));
 }
